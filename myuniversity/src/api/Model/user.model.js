@@ -26,17 +26,22 @@ const userSchema =new  Schema({
         required: true
     },
     
-
-
     password: {
         type : String ,
         required: true
     },
+
     
     country: {
         type : String ,
         required: true
     },
+
+     role :{
+         type:String,
+         enum : ['ADMIN','STUDENT','TEACHER','SUPER_ADMIN']
+
+     }
 
 }).pre('save',function(next) {
     this.password =bcrypt.hashSync(this.password,10);
