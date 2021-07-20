@@ -4,6 +4,8 @@ const User =  require('../Model/user.model');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+const {roles} = require('../../_helper/roles');
+
 /******************Sign UP**************** */
 exports.signUp = function(req,res,next) {
 
@@ -25,7 +27,9 @@ exports.signUp = function(req,res,next) {
           {
             return next(err) 
           } 
-          res.json({sucess:"User created successfully!!"})
+          const token = jwt.sign({id : user._id},req.app.get("secretKey"),{expiresIn:'24h'});
+          user.accesstoken  = token;
+          res.json({sucess:"User created successfully!!" , data: user})
     })              
 }
 
@@ -36,6 +40,7 @@ exports.signUp = function(req,res,next) {
 exports.signIn =  function(req,res,next) {
 
   email =  req.body.email;
+  console.log(email);
   User.findOne({email})
    
 .then(
@@ -133,7 +138,7 @@ exports.deleteUser = async function (req ,res ,next) {
 }
 
 
-exports.getUserByFirstName = async function(req ,res ,next) {
+exports.getUserByFirstName = async function(req ,res ,next) { 
   
 
   try {
@@ -152,4 +157,35 @@ exports.getUserByFirstName = async function(req ,res ,next) {
   }
 }
 
+/*****Grant Access *** */
+exports.grantAccess = function(action , ressource) {
 
+  return  async (req, res , next) => {
+    try {
+
+      const permission  =roles.can(req.user.role)[action](ressource);
+      if(!permission.granted) {
+          res.status(401).json({message : "You don't have enough permission to perform this action"});
+
+      }
+      next()
+    }catch(eror) {
+      next(eror);
+    }
+  }
+}
+
+exports.allowIfLoggedIn = async function(req , res , next)  {
+  try {
+    const user = res.locals.loggedInUser;
+    console.log("user current ="+user);
+    if(!user) {
+      return res.status(401).json({message: "You need to be logged in to access this route"})
+    }
+    req.user = user;
+    next();
+  }catch(err) {
+    next(err);
+  }
+  
+}

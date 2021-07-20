@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { Access } = require('accesscontrol');
 const Schema = mongoose.Schema;
 
 const userSchema =new  Schema({
@@ -41,7 +42,12 @@ const userSchema =new  Schema({
          type:String,
          enum : ['ADMIN','STUDENT','TEACHER','SUPER_ADMIN']
 
+     },
+     accesstoken : {
+         type:String
      }
+
+   
 
 }).pre('save',function(next) {
     this.password =bcrypt.hashSync(this.password,10);
