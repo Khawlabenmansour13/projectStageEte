@@ -25,8 +25,47 @@ exports.signUp = function(req,res,next) {
     user.save(function(err) {
         if(err) 
           {
-            return next(err) 
-          } 
+         
+          if(err.errors) {
+            if(err.errors.email) {
+              return   res.json({success:false , message :err.errors.email.message});
+              }
+              else {
+                if(err.errors.firstName) {
+                  return   res.json({success:false , message :err.errors.firstName.message});
+  
+                }
+                else {
+                  if(err.errors.lastName) {
+                    return   res.json({success:false , message :err.errors.lastName.message});
+    
+                  }
+                  else {
+                    if(err.errors.password) {
+                      return   res.json({success:false , message :err.errors.password.message});
+   
+                    }
+                    else {
+                      if(err.errors.phone) {
+                        return   res.json({success:false , message :err.errors.phone.message});
+     
+                      }
+                  }
+                    
+                  }
+                }
+              }
+
+               
+            
+          }
+            else {
+              res.json({success:false , message :"could not save user eroror ",err});
+
+            }
+
+          }
+          
           const token = jwt.sign({id : user._id},req.app.get("secretKey"),{expiresIn:'24h'});
           user.accesstoken  = token;
           res.json({sucess:"User created successfully!!" , data: user})
