@@ -1,5 +1,6 @@
 
 const User =  require('../Model/user.model');
+const Department =  require('../Model/department.model');
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -25,44 +26,52 @@ exports.signUp = function(req,res,next) {
     user.save(function(err) {
         if(err) 
           {
+            if(err.code == 11000) {
+              return   res.json({success:false , message: "E-mail already exists !"});
+
+            }
          
-          if(err.errors) {
-            if(err.errors.email) {
-              return   res.json({success:false , message :err.errors.email.message});
-              }
-              else {
-                if(err.errors.firstName) {
-                  return   res.json({success:false , message :err.errors.firstName.message});
-  
+          else{
+            if(err.errors) {
+              if(err.errors.email) {
+                return   res.json({success:false , message :err.errors.email.message});
                 }
                 else {
-                  if(err.errors.lastName) {
-                    return   res.json({success:false , message :err.errors.lastName.message});
+                  if(err.errors.firstName) {
+                    return   res.json({success:false , message :err.errors.firstName.message});
     
                   }
                   else {
-                    if(err.errors.password) {
-                      return   res.json({success:false , message :err.errors.password.message});
-   
+                    if(err.errors.lastName) {
+                      return   res.json({success:false , message :err.errors.lastName.message});
+      
                     }
                     else {
-                      if(err.errors.phone) {
-                        return   res.json({success:false , message :err.errors.phone.message});
+                      if(err.errors.password) {
+                        return   res.json({success:false , message :err.errors.password.message});
      
                       }
-                  }
-                    
+                      else {
+                        if(err.errors.phone) {
+                          return   res.json({success:false , message :err.errors.phone.message});
+       
+                        }
+                    }
+                      
+                    }
                   }
                 }
-              }
-
-               
-            
-          }
+  
+                 
+              
+            }
+          
+       
             else {
               res.json({success:false , message :"could not save user eroror ",err});
 
             }
+          }
 
           }
           
@@ -86,7 +95,7 @@ exports.signIn =  function(req,res,next) {
   user=> {
     if(!user) return res.status(400).json({msg: "User not found"});
     bcrypt.compare(req.body.password,user.password, (err,data)=> {
-
+      console.log("data = "+req.body.password+", database pass = "+user.password)
 
       if(err) {
         next(err);
@@ -161,23 +170,32 @@ exports.updateUser = async function(req  ,res, next) {
 /****************** Delete user*****************/
 
 exports.deleteUser = async function (req ,res ,next) {
-  try {
     const userId = req.params.userId;
     const user= await User.findById(userId);
+  
+
+
+    await User.findByIdAndRemove(userId)
+    
     if(!user) {
       res.status(404).json({failed: "Not Ok",message:"User not found please try again "});
 
     }
-     await User.findByIdAndDelete(userId);
-
+    
     res.status(200).json({sucess: "OK",data: null, message: "user has been deleted !!"});
-  }catch(error) {
-    next(error)
-  }
+
 }
 
-
+/****************** Get user by name*****************/
 exports.getUserByFirstName = async function(req ,res ,next) { 
+  
+
+
+
+
+
+
+
   
 
   try {
@@ -221,10 +239,9 @@ exports.allowIfLoggedIn = async function(req , res , next)  {
     if(!user) {
       return res.status(401).json({message: "You need to be logged in to access this route"})
     }
-    req.user = user;
+    req.user = user;//get user connect
     next();
   }catch(err) {
     next(err);
   }
-  
 }

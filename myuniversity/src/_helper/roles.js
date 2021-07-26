@@ -13,6 +13,17 @@ exports.roles = (function() {
                                       .readAny('profile')
                                       .createAny('profile')
     ac.grant('ADMIN').updateAny('profile')
+
+
+    ac.grant('TEACHER').updateAny('profile')
+    .deleteAny('profile')       
+    .readAny('profile')
+    .createAny('profile')  
+
+    ac.grant('STUDENT').updateAny('profile')
+                                      .deleteAny('profile')       
+                                      .readAny('profile')
+                                      .createAny('profile')    
     
     return ac ;
 })();

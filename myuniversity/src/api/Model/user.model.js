@@ -14,7 +14,7 @@ let firstNameLengthChecker = (firstName)=> {
         if(firstName.length < 3 || firstName.length > 20){
             return false ;
         }
-        else {// email >=5 && email <=50
+        else {
             return true; 
         }
     }
@@ -206,7 +206,8 @@ const userSchema =new  Schema({
     email : {
         type : String ,
         required: true,
-        validate:emailValidators
+        validate:emailValidators,
+        unique:true
 
     },
     
@@ -229,7 +230,13 @@ const userSchema =new  Schema({
      },
      accesstoken : {
          type:String
-     }
+     },
+     department: 
+       {
+        type: Schema.ObjectId,
+        ref:"department"
+       }  
+     
 
    
 
