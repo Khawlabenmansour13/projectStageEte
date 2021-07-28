@@ -30,10 +30,11 @@ etatDb.on('ready',function() {
 //appel  routes user = GET USER ROUTES 
 const user = require('./src/api/Routes/user.routes');
 const department = require('./src/api/Routes/department.routes');
+const section = require('./src/api/Routes/section.routes')
 
 
 
-const userModel = require('./src/api/Model/user.model');
+const userModel = require('./src/api/Model/user.model')
 
 
 app.use(bodyParser.json());
@@ -91,7 +92,7 @@ app.use(async (req , res ,next) => {
 
 app.use('/user',user);
 app.use('/department',department);
-
+app.use('/section',section)
 app.listen(port,()=> {
     console.log("Server is up and runing on port",port);
 })

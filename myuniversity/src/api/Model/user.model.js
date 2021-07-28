@@ -235,8 +235,12 @@ const userSchema =new  Schema({
        {
         type: Schema.ObjectId,
         ref:"department"
+       } ,
+       section: 
+       {
+        type: Schema.ObjectId,
+        ref:"section"
        }  
-     
 
    
 

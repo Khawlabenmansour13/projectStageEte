@@ -26,7 +26,7 @@ const Coursechema = new Schema ({
         enum : ['Business','Health','Technologies','Scientist']
 
     },
-    user: 
+    users: 
         [{
          type: Schema.ObjectId,
          ref:"user"
@@ -41,4 +41,4 @@ const Coursechema = new Schema ({
 })
 
 
-module.exports = mongoose.model('course', SectionSchema);
+module.exports = mongoose.model('course', Coursechema);

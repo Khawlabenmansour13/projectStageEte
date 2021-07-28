@@ -171,19 +171,27 @@ exports.updateUser = async function(req  ,res, next) {
 
 exports.deleteUser = async function (req ,res ,next) {
     const userId = req.params.userId;
-    const user= await User.findById(userId);
-  
 
+    user = await User.findById(userId)
 
-    await User.findByIdAndRemove(userId)
-    
+        
     if(!user) {
-      res.status(404).json({failed: "Not Ok",message:"User not found please try again "});
+      return   res.status(404).json({failed: "Not Ok",message:"User not found please try again "});
 
     }
     
-    res.status(200).json({sucess: "OK",data: null, message: "user has been deleted !!"});
+else {
+  await User.findByIdAndRemove(userId)
+   Department.updateOne(       { user: user._id }, 
+    { $pull: { user: user._id } }, 
+    { multi: true }, 
+    next);
+      
 
+
+  return   res.status(200).json({sucess: "OK",data: null, message: "user has been deleted !!"});
+
+}
 }
 
 /****************** Get user by name*****************/

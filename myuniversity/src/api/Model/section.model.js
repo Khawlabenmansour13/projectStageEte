@@ -13,7 +13,7 @@ const SectionSchema = new Schema ({
         required:true
 
     },
-    user: 
+    users: 
         [{
          type: Schema.ObjectId,
          ref:"user"
