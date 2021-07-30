@@ -16,7 +16,6 @@ router.get('/getDepartmentById/:departmentId',user_controller.allowIfLoggedIn,de
 router.get('/getDepartmentByName/:name',user_controller.allowIfLoggedIn,department_controller.getDepartmentByName)
 router.put('/updateDepartment/:departmentId',user_controller.allowIfLoggedIn,department_controller.updateDepartment)
 router.delete('/deleteDepartment/:departmentId',user_controller.allowIfLoggedIn,department_controller.deleteDepartment)
-
 router.put('/affectUserDepartement/:departmentId/:userId',user_controller.allowIfLoggedIn,department_controller.affectUserDepartement)
 
 

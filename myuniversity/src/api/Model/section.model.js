@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const SectionSchema = new Schema ({
 
-    speciality:{
+    title:{
         type:String,
         required:true
     },
@@ -12,6 +12,19 @@ const SectionSchema = new Schema ({
         type:String,
         required:true
 
+    },
+
+    speciality:{
+        type:String,
+        enum:['Computer science','mecanic','continue','business','Civilize'],
+        required:true
+    },
+    date:Date,
+
+    level:{
+        type:String,
+        enum:['1er','2éme','3éme','4éme','5éme'],
+        required:true
     },
     users: 
         [{

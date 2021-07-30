@@ -5,9 +5,13 @@ const User =  require('../Model/user.model');
 
 exports.addSection = async function(req,res,next) {
 
+    var date = new Date();
       let section  = new Section ({
 
+        title: req.body.title,
         speciality: req.body.speciality,
+        level: req.body.level,
+        date: date,
           option: req.body.option
           
         
@@ -30,7 +34,7 @@ exports.addSection = async function(req,res,next) {
     }
 
     
-   //affect section course 
+   //affect section users 
 exports.addUsersToSection = async function(req,res,next)  {
   try {
     const userId = req.params.userId;
@@ -39,6 +43,10 @@ exports.addUsersToSection = async function(req,res,next)  {
     const section = await Section.findById(sectionId);
     const user = await User.findById(userId);
 
+    if(section.users.indexOf(user._id)!= -1) {//ylawej al user selon indice dans le table user  mawjoud diff de -1
+      return  res.status(401).json({sucess: "Exist",message: "user already exists in this section"});
+
+    }
    section.users.push(user);
 
    await section.save(function(err,data) {
@@ -66,9 +74,13 @@ exports.addUsersToSection = async function(req,res,next)  {
 exports.getAllsections= async function(req, res, next) {
   
     try {
-      const sectionsList =await Section.find({});
+     await Section.find({}).populate('users').exec(function(err,data){
+            if(err) return next(err);
+            else
+            res.status(200).json({sucess: "OK",data: data});
+
+      }) ;
   
-      res.status(200).json({sucess: "OK",data: sectionsList});
     }catch(error) {
       next(error)
     }
@@ -139,43 +151,53 @@ exports.getAllsections= async function(req, res, next) {
   
 
 
-  /****************** Get section by name*****************/
-exports.getSectionBySpeciality = async function(req ,res ,next) { 
-  
 
-    try {
-      const speciality = req.params.speciality;
-      console.log(speciality);
-      const section = await Section.find({speciality});
-  
-      if(!section) {
-        res.status(404).json({failed: "Not Ok",message:"speciality section not found please try again "});
-      }
-      res.status(200).json({sucess: "OK",data: section});
-  
-  
-    }catch(error) {
-      next(error)
-    }
-  }
 
-     /****************** Get section by name*****************/
-exports.getSectionbyEmailUser = async function(req ,res ,next) { 
+     /****************** Get section by email*****************/
+exports.getUsersSectionByTitle = async function(req ,res ,next) { 
   
-
+  console.log("hiiiiii I am in ")
   try {
-    const email = req.params.email;
-    console.log(speciality);
-    const emailSectionUser = section.users.email
-    const section = await Section.find({emailSectionUser:email});
+    var title = req.params.title;
+    console.log(title);
 
-    if(!section) {
-      res.status(404).json({failed: "Not Ok",message:"speciality section not found please try again "});
-    }
-    res.status(200).json({sucess: "OK",data: section});
+    await Section.findOne({title:title}).populate('users','email')
+    .exec(function(err,data) {
+      if(err) return next(err);
 
+      else if(!data) 
+       res.status(404).json({failed: "Not Ok",message:"This section does not contain any users or try to put another title."});
+      
+      else res.status(200).json({sucess: "OK",data: data});
+  
+    })
+
+
+   
 
   }catch(error) {
     next(error)
   }
+   
+}
+
+{/*Get Section Computer Sceince */}
+
+exports.getSectionComputerScience = async function(req, res , next) {
+      
+  await Section.find()
+    .then((data) => {
+
+      let listComputerSection= [];
+      data.forEach(element => {
+        if(element.speciality === 'Computer science') {
+          listComputerSection.push(element);
+        }
+      })
+      res.json(listComputerSection);
+    });
+
+  
+                 
+
 }
