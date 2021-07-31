@@ -5,12 +5,35 @@ const Department =  require('../Model/department.model');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+var  fs = require('fs');
+const multer = require('multer')
+
 const {roles} = require('../../_helper/roles');
+
 
 /******************Sign UP**************** */
 exports.signUp = function(req,res,next) {
 
-
+  //Upload Image 
+  var file  = __dirname+'/uploads/images/'+ req.file.originalname;
+  console.log("file="+file)
+  fs.readFile(req.file.path,function(err,data){
+    fs.writeFile(file,data,function(err) {
+      if(err) {
+        var response = {
+          message:'Sorry FIle could not be uploaded.',
+          filename: req.file.originalname
+        }
+        res.json(response);
+      }
+      else {
+        var response = {
+          message:'File uploaded successfully',
+          filename: req.file.originalname
+        }
+      }
+    })
+  })
   
     let user = new User ({
 
@@ -20,7 +43,8 @@ exports.signUp = function(req,res,next) {
         password : req.body.password,
         phone : req.body.phone,
         country : req.body.country,
-        role : req.body.role
+        role : req.body.role,
+        image:req.file.originalname
     })
 
     user.save(function(err) {
@@ -199,13 +223,6 @@ exports.getUserByFirstName = async function(req ,res ,next) {
   
 
 
-
-
-
-
-
-  
-
   try {
     const firstName = req.params.firstName;
     console.log(firstName);
@@ -221,6 +238,22 @@ exports.getUserByFirstName = async function(req ,res ,next) {
     next(error)
   }
 }
+
+
+//GET IMAGE 
+/*
+Avec Arrow function
+exports.getImag = async(req,res,nex)=> {
+
+}
+*/
+exports.getImage = async function(req,res,next) {
+  res.sendFile(__dirname+'/uploads/images/'+req.params.image)
+}
+
+
+
+
 
 /*****Grant Access *** */
 exports.grantAccess = function(action , ressource) {

@@ -223,7 +223,14 @@ const userSchema =new  Schema({
         required: true
     },
 
-     role :{
+    image :{
+        type: String, 
+        trim:true,
+        required:true
+
+        },
+
+    role :{
          type:String,
          enum : ['ADMIN','STUDENT','TEACHER','SUPER_ADMIN']
 

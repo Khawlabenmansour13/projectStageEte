@@ -16,7 +16,7 @@ const SectionSchema = new Schema ({
 
     speciality:{
         type:String,
-        enum:['Computer science','mecanic','continue','business','Civilize'],
+        enum:['Computer science','mecanic','Continu','business','Civilize'],
         required:true
     },
     date:Date,

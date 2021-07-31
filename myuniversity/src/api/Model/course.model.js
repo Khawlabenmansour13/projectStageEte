@@ -10,12 +10,11 @@ const Coursechema = new Schema ({
     },
     image:{
         type:String,
-        required:true
 
     },
     creationDate: {
-        Type:Date.now(),
-        required:true
+        Type:Date,
+      
     },
     description: {
         type:String,

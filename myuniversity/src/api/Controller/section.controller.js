@@ -197,7 +197,88 @@ exports.getSectionComputerScience = async function(req, res , next) {
       res.json(listComputerSection);
     });
 
-  
+ 
                  
 
 }
+
+ {/*Get Section mecanic */}
+ exports.getSectionMecanic = async function(req , res , next ){
+
+  await Section.find()
+    .then ((data)=>{ 
+      let listMecanicSection= [];
+      data.forEach(element =>{
+       if(element.speciality === 'mecanic'){
+         listMecanicSection.push(element);
+       }
+      })
+      res.json(listMecanicSection);
+      
+        
+       
+      });
+    
+    }
+
+     {/*Get Section business */}
+ exports.getSectionBusiness= async function(req , res , next ){
+
+  await Section.find()
+    .then ((data)=>{ 
+      let listBusinessSection= [];
+      data.forEach(element =>{
+       if(element.speciality === 'business'){
+         listBusinessSection.push(element);
+       }
+      })
+      res.json(listBusinessSection);
+      
+        
+       
+      });
+    
+    }
+
+  {/*Get Section  Civilize section   */}
+ exports.getSectionCivilize= async function(req , res , next ){
+
+  await Section.find()
+    .then ((data)=>{ 
+      let listCivilizeSection= [];
+      data.forEach(element =>{
+       if(element.speciality === 'Civilize'){
+         listCivilizeSection.push(element);
+       }
+      })
+      res.json(listCivilizeSection);
+      
+        
+       
+      });
+    
+    }
+
+     {/*Get Section  Continu section   */}
+ exports.getSectionContinu= async function(req , res , next ){
+
+  await Section.find()
+    .then ((data)=>{ 
+      let listContinuSection= [];
+      data.forEach(element =>{
+       if(element.speciality === 'Continu'){
+         listContinuSection.push(element);
+       }
+      })
+      res.json(listContinuSection);
+      
+        
+       
+      });
+    
+    }
+    
+  
+   
+
+
