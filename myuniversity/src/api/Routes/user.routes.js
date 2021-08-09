@@ -21,4 +21,9 @@ router.get('/getUserByFirstName/:firstName',user_controller.getUserByFirstName)
 router.delete('/deleteUser/:userId',user_controller.deleteUser)
 router.get('/getImage/:image',user_controller.getImage)
 
+
+
+router.route('/forgot_password').get(user_controller.render_forget_password).post(user_controller.forgetPassword)
+router.route('/reset_password').get(user_controller.render_reset_password).post(user_controller.resetPassword)
+
 module.exports = router;

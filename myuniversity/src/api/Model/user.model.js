@@ -247,7 +247,14 @@ const userSchema =new  Schema({
        {
         type: Schema.ObjectId,
         ref:"section"
-       }  
+       } ,
+       reset_password_token: {
+           typ:String
+       },
+       reset_password_expires: {
+           type:Date
+       }
+
 
    
 

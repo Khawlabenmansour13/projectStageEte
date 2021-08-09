@@ -89,6 +89,7 @@ app.use(async (req , res ,next) => {
 }
  
  )
+ 
 
 app.use('/user',user);
 app.use('/department',department);
