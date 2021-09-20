@@ -886,10 +886,11 @@ exports.googleAuthentification = (req, res) => {
 
 
   const {idToken} = req.body;
+  console.log
   authClient
       .verifyIdToken({
         idToken,
-        audience:"380442105620-0chtnak9igr6tcs8fskt396jpqshpg78.apps.googleusercontent.com"})
+        audience:"61663739071-ih254e53so2e09qm7p6gi5fndtbtaiqh.apps.googleusercontent.com"})
       .then((response) => {
 
         const { email_verified, name, email, picture } = response.payload;
@@ -941,51 +942,62 @@ exports.googleAuthentification = (req, res) => {
 //COUNT TEACHER
 
 exports.countTeacher = async function (req,res) {
+  var c =0;
+  var count =[];
 
-  var i =0;
+  User.find().exec(function(err,item) {
 
-     User.findOne().exec(function(err,item) {
+        for(var i = 0 ; i< item.length ; i ++) {
+        if(item[i].role ==="TEACHER"){
+          count.push(item[i].role)
+          c++
+        }
+     
+         
+        }
 
-       if(item.role ==="TEACHER") {
-         i++;
-       }
-       return res.json(i)
+        return res.json(c)
 
-     })
-
-
-  }
+  });
+}
 //COUNT STUDENT
 
 exports.countSTUDENT = async function (req,res) {
 
-  var i =0;
+  var c =0;
+  var count =[];
 
-  User.findOne().exec(function(err,item) {
+  User.find().exec(function(err,item) {
 
-    if(item.role ==="STUDENT") {
-      i++;
-    }
-    return res.json(i)
+        for(var i = 0 ; i< item.length ; i ++) {
+          if(item[i].role ==="STUDENT") {
+            count.push(item);
+            c++;
+          }
+        }
+        return res.json(c)
+
 
   })
-
-
 }
 //COUNT EMPLOYEE
 
 exports.countEmployee = async function (req,res) {
 
-  var i =0;
+  var c =0;
+  var count =[];
 
-  User.findOne().exec(function(err,item) {
+  User.find().exec(function(err,item) {
 
-    if(item.role ==="EMPLOYEE") {
-      i++;
-    }
-    return res.json(i)
+        for(var i = 0 ; i< item.length ; i ++) {
+          if(item[i].role ==="EMPLOYEE") {
+            count.push(item);
+            c++;
+          }
+        }
+        return res.json(c)
 
-  })
+      })
 
 
 }

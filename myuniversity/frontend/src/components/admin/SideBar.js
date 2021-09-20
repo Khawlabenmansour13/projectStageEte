@@ -66,18 +66,30 @@ function SideBar() {
                     <div className="tab-content padding-0">
                         <div className="tab-pane active" id="menu">
                             <nav id="left-sidebar-nav" className="sidebar-nav">
-                                <ul className="metismenu li_animation_delay">
+                              
+                              
+                            <ul className="metismenu li_animation_delay">
 
-                                    {isAuth().role === "TEACHER" ?
-                                        <li className="active"><Link to={"/admin"}><i
-                                            className="fa fa-info"></i><span>Mark</span></Link></li>
 
-                                        :
+{isAuth().role === "TEACHER" ?
+    <li className="active"><Link to={"/mark"}><i
+        className="fa fa-info"></i><span>Mark</span></Link></li>
+
+    :
 
 <>
-    <li className="active"><Link to={"/admin"}><i
-        className="fa fa-dashboard"></i><span>dashboard</span></Link></li>
-                                        <li>
+<li className="active"><Link to={"/admin"}><i
+className="fa fa-dashboard"></i><span>dashboard</span></Link></li>
+
+<li>
+<Link to={"/marks"}
+><i
+className="fa fa-inbox"></i><span>Mark</span></Link>
+
+</li>
+                              
+                              
+                                 <li>
                                             <Link to={"/schedule"}
                                                   className="e-schedule"><i
                                                 className="fa fa-tag"></i><span>Schedule</span></Link>

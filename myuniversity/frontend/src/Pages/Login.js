@@ -79,14 +79,14 @@
                         this.go(res);
                     })
                     .catch((error) => {
-                        console.log("GOOGLE SIGNIN ERROR", error.response);
+                        console.log("GOOGLE SIGNIN ERROR", JSON.stringify(error.response));
                     });
             };
 
 
             /************RESPONSE GOOGLE SUCCESS **************/
             responseGoogle = (response) => {
-                console.log("RESPONSE GOOGLE==>"+response);
+                console.log("RESPONSE GOOGLE==>"+JSON.stringify(response));
                 this.sendGoogleToken(response.tokenId);
             };
 
@@ -181,7 +181,7 @@
 
     const { message, visible} = this.state;
 
-    const REACT_APP_GOOGLE_CLIENT ="380442105620-0chtnak9igr6tcs8fskt396jpqshpg78.apps.googleusercontent.com";
+    const REACT_APP_GOOGLE_CLIENT ="61663739071-ih254e53so2e09qm7p6gi5fndtbtaiqh.apps.googleusercontent.com";
     const REACT_APP_FACEBOOK_APP_CLIENT = "217241700359408"
 
     return (

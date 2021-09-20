@@ -29,6 +29,7 @@ import {FormMarkInfoEdit} from "./components/admin/Mark/FormMarkInfoEdit";
 import ListTeacher from "./components/admin/Teacher/ListTeacher";
 import MyResult from "./Pages/Result/MyResult";
 import ListClaims from "./components/admin/Claims/ListClaims";
+import Chart from "./components/admin/Dashboard/Chart";
 import MyMark from "./Pages/Result/myMark";
 import ChatWithbot from "./Pages/ChatWithbot";
 import FormSectionEdit from "./components/admin/Section/FormSectionEdit";
@@ -67,8 +68,8 @@ function App() {
                         {/*    path="/meeting"*/}
                         {/*    exact component ={Meeting}/>*/}
 
-                        <AdminRoute  path="/admin" exact component={Admin}/>
-
+                        <AdminRoute  path="/admin" exact component={Chart}/>
+                        <Route  path="/marks" exact component={Admin}/>
                         <Route exact path="/updateProfile" component={UpdateProfile} />
 
                         <Route exact path="/addSection" component={AddSection} />

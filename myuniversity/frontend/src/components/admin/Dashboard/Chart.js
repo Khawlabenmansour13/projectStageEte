@@ -4,6 +4,8 @@ import Navbar from "../Navbar";
 import Sidebar from "../SideBar";
 import CanvasJSReact from "./canvasjs.react";
 import axios from "axios";
+import { Grid, Image } from 'semantic-ui-react'
+
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -38,20 +40,27 @@ class Chart extends Component {
 
     render() {
         const options = {
-            title: {
-                text: "Chart Version 0"
-            },
-            data: [{
-                type: "column",
-                dataPoints: [
-                    {label: "Teacher", y:this.state.teachers},
-                    {label: "Employee", y:this.state.employee},
-                    {label: "Student", y: this.state.student},
-
-                ]
-            }]
-        }
-
+			exportEnabled: true,
+			animationEnabled: true,
+			title: {
+				text: "Chart Version 0"
+			},
+			data: [{
+				type: "pie",
+				startAngle: 75,
+				toolTipContent: "<b>{label}</b>: {y}%",
+				showInLegend: "true",
+				legendText: "{label}",
+				indexLabelFontSize: 16,
+				indexLabel: "{label} {y}%",
+				dataPoints: [
+					{ y: this.state.student, label: "Students" },
+					{ y: this.state.teachers, label: "Teachers" },
+					{ y: this.state.employee, label: "Employee" },
+					
+				]
+			}]
+		}
         return (
             <div id="wrapper" className="theme-cyan">
                 <Helmet>
@@ -108,10 +117,51 @@ class Chart extends Component {
                                 <div>
                             </div>
                         </div>
+                        <br/>
+                       
+                        <Grid>
+    <Grid.Row columns={3}>
+      <Grid.Column>
+                            <div class="card top_counter">
+                                <div class="body">
+                                    <div class="icon text-warning"><i class="fa fa-users"></i> </div>
+                                    <div class="content">
+                                        <div class="text">Students</div>
+                                        <h5 class="number">{this.state.student}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                             </Grid.Column>
+      <Grid.Column>
+                            <div class="card top_counter">
+                                <div class="body">
+                                    <div class="icon text-danger"><i class="fa fa-briefcase"></i> </div>
+                                    <div class="content">
+                                        <div class="text">Employee</div>
+                                        <h5 class="number">{this.state.employee}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                              </Grid.Column>
+      <Grid.Column>
+                            <div class="card top_counter">
+                                <div class="body">
+                                    <div class="icon"><i class="fa fa-users"></i> </div>
+                                    <div class="content">
+                                        <div class="text">Teachers</div>
+                                        <h5 class="number">{this.state.teachers}</h5>
+                                    </div>
+                                </div>
+                        </div>
+                              </Grid.Column>
+    </Grid.Row>
+    </Grid>
+    
+                        
+                        
 
-                        <div className="row clearfix">
+                            <div className="container">
 
-                            <div className="container-fluid">
 
                                 <CanvasJSChart options={options}
                                     /* onRef = {ref => this.chart = ref} */
@@ -122,7 +172,7 @@ class Chart extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            
 
 
 
