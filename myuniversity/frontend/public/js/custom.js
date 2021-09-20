@@ -10,7 +10,7 @@ $(function() {
             $("#preloader").hide();
         });
     });
-	
+
 	// Count
 	$(window).on('load', function() {
 		$('.bc_sec_last li h4').counterUp({
@@ -18,7 +18,7 @@ $(function() {
 			time: 800
 		});
 	});
-	
+
 	// Count
 	$(window).on('load', function() {
 		$('.counts').counterUp({

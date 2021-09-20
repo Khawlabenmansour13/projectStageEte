@@ -1,19 +1,20 @@
 
 const Section =  require('../Model/section.model');
 const User =  require('../Model/user.model');
+const Mark = require("../Model/note.model");
 /************************ Add Department ****************************/
 
 exports.addSection = async function(req,res,next) {
 
     var date = new Date();
       let section  = new Section ({
-
-        title: req.body.title,
-        speciality: req.body.speciality,
-        level: req.body.level,
+          nombreCredit: req.body.nombreCredit,
+          description: req.body.description,
+          formation: req.body.formation,
         date: date,
-          option: req.body.option
-          
+          typeCycle: req.body.typeCycle,
+          annee: req.body.annee,
+
         
     
       })
@@ -33,39 +34,37 @@ exports.addSection = async function(req,res,next) {
 
     }
 
-    
-   //affect section users 
+
+
+
+//affect section users
 exports.addUsersToSection = async function(req,res,next)  {
-  try {
-    const userId = req.params.userId;
-    const sectionId = req.params.sectionId;
-    console.log(userId)
-    const section = await Section.findById(sectionId);
-    const user = await User.findById(userId);
+    try {
+        const userId = req.params.idStudent;
+        const sectionId = req.params.idSection;
+        console.log(userId)
+        const section = await Section.findById(sectionId);
+        const user = await User.findById(userId);
 
-    if(section.users.indexOf(user._id)!= -1) {//ylawej al user selon indice dans le table user  mawjoud diff de -1
-      return  res.status(401).json({sucess: "Exist",message: "user already exists in this section"});
+        if(section.user.indexOf(user._id)!== -1) {//ylawej al user selon indice dans le table user  mawjoud diff de -1
+            return  res.status(401).json({sucess: "Exist",error: "user already exists in this section"});
 
+        }
+        section.user.push(user);
+
+        await section.save(function(err,data) {
+            if(err) return next(err);
+            else  {
+                res.status(200).json({success:true, data :data});
+
+            }
+        })
+
+    }catch(err) {
+        return res.status(400).json({sucess:false,message : err.message})
     }
-   section.users.push(user);
-
-   await section.save(function(err,data) {
-     if(err) return next(err);
-     else  {
-      res.status(200).json({success:true, data :data});
-
-     }
-   })
-
-  }catch(err) {
-    return res.status(400).json({sucess:false,message : err.message})
-  }
 
 }
-
-
-
-
 
 
 
@@ -74,7 +73,7 @@ exports.addUsersToSection = async function(req,res,next)  {
 exports.getAllsections= async function(req, res, next) {
   
     try {
-     await Section.find({}).populate('users').exec(function(err,data){
+     await Section.find({}).populate('user').exec(function(err,data){
             if(err) return next(err);
             else
             res.status(200).json({sucess: "OK",data: data});
@@ -93,14 +92,14 @@ exports.getAllsections= async function(req, res, next) {
   exports.getSectionbyId = async function  (req,res,next ){
   
     try {
-      const sectionId = req.params.sectionId;
+      const sectionId = req.params.id;
       console.log(sectionId);
       const section = await Section.findById(sectionId);
   
       if(!section) {
-        res.status(404).json({failed: "Not Ok",message:"section not found please try again "});
+        res.json({failed: "Not Ok",message:"section not found please try again "});
       }
-      res.status(200).json({sucess: "OK",data: section});
+      res.json({sucess: "OK",data: section});
   
   
     }catch(error) {
@@ -112,10 +111,10 @@ exports.getAllsections= async function(req, res, next) {
   
   
     try {
-      const sectionId = req.params.sectionId;
+      const id = req.params.id;
       const newDataSection  = req.body ;
-      await Section.findByIdAndUpdate(sectionId, newDataSection);
-      const sectionAfterUpdate = await  Section.findById(sectionId);
+      await Section.findByIdAndUpdate(id, newDataSection);
+      const sectionAfterUpdate = await  Section.findById(id);
       res.status(200).json({sucess: "OK",data: sectionAfterUpdate,message :"Section has been updated !!"});
   
   
@@ -130,13 +129,13 @@ exports.getAllsections= async function(req, res, next) {
   
   exports.deleteSection = async function (req ,res ,next) {
     try {
-      const sectionId = req.params.sectionId;
-      const section= await Section.findById(sectionId);
+      const id = req.params.id;
+      const section= await Section.findById(id);
       if(!section) {
         res.status(404).json({failed: "Not Ok",message:"section not found please try again "});
-  
+
       }
-       await Section.findByIdAndDelete(sectionId);
+       await Section.findByIdAndDelete(id);
   
       res.status(200).json({sucess: "OK",data: null, message: "section has been deleted !!"});
     }catch(error) {
@@ -147,26 +146,45 @@ exports.getAllsections= async function(req, res, next) {
 
 
 
+
   }
-  
+
+exports.search = async function(req,res) {
+    var formation = req.query.formation;
+    console.log("formation="+formation);
+    let query = {
+        formation
+    };
+    console.log("query search =="+JSON.stringify(query))
+    Section.find(query)
+        .then(data => {
+            if(data )
+                res.json(data);
+            else
+                res.json({message:"Speciality  not found !!"})
+        })
+        .catch(err => res.status(400).json(err));
+}
 
 
 
 
-     /****************** Get section by email*****************/
+
+
+/****************** Get section by email*****************/
 exports.getUsersSectionByTitle = async function(req ,res ,next) { 
   
   console.log("hiiiiii I am in ")
   try {
-    var title = req.params.title;
-    console.log(title);
+    var formation = req.params.formation;
+    console.log(formation);
 
-    await Section.findOne({title:title}).populate('users','email')
+    await Section.findOne({formation:formation}).populate('user','email')
     .exec(function(err,data) {
       if(err) return next(err);
 
       else if(!data) 
-       res.status(404).json({failed: "Not Ok",message:"This section does not contain any users or try to put another title."});
+       res.status(404).json({failed: "Not Ok",message:"This section does not contain any users or try to put another formation."});
       
       else res.status(200).json({sucess: "OK",data: data});
   
@@ -190,15 +208,15 @@ exports.getSectionComputerScience = async function(req, res , next) {
 
       let listComputerSection= [];
       data.forEach(element => {
-        if(element.speciality === 'Computer science') {
+        if(element.formation === 'Computer science') {
           listComputerSection.push(element);
         }
       })
       res.json(listComputerSection);
     });
 
- 
-                 
+
+
 
 }
 
@@ -209,7 +227,7 @@ exports.getSectionComputerScience = async function(req, res , next) {
     .then ((data)=>{ 
       let listMecanicSection= [];
       data.forEach(element =>{
-       if(element.speciality === 'mecanic'){
+       if(element.formation === 'Mecanic'){
          listMecanicSection.push(element);
        }
       })
@@ -228,7 +246,7 @@ exports.getSectionComputerScience = async function(req, res , next) {
     .then ((data)=>{ 
       let listBusinessSection= [];
       data.forEach(element =>{
-       if(element.speciality === 'business'){
+       if(element.formation === 'Business'){
          listBusinessSection.push(element);
        }
       })
@@ -247,7 +265,7 @@ exports.getSectionComputerScience = async function(req, res , next) {
     .then ((data)=>{ 
       let listCivilizeSection= [];
       data.forEach(element =>{
-       if(element.speciality === 'Civilize'){
+       if(element.formation === 'Civilize'){
          listCivilizeSection.push(element);
        }
       })
@@ -266,7 +284,7 @@ exports.getSectionComputerScience = async function(req, res , next) {
     .then ((data)=>{ 
       let listContinuSection= [];
       data.forEach(element =>{
-       if(element.speciality === 'Continu'){
+       if(element.formation === 'Continu'){
          listContinuSection.push(element);
        }
       })

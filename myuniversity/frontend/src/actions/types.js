@@ -2,3 +2,40 @@ export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+
+
+
+// USER TYPES 
+export const USERS_LOADING = 'USERS_LOADING';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const GET_USERS = 'GET_USERS';
+export const ADD_USERS = 'ADD_USERS';
+export const DELETE_USERS = 'DELETE_USERS';
+export const SEARCH_USERS = 'SEARCH_USERS';
+export const EDIT_USERS = 'EDIT_USERS';
+
+
+
+// SECTION TYPES
+export const SECTIONS_LOADING = 'MARKS_LOADING';
+export const GET_ALL_SECTIONS = 'GET_ALL_SECTIONS';
+export const GET_SECTIONS = 'GET_SECTIONS';
+export const GET_SECTION = 'GET_SECTION';
+export const ADD_SECTIONS = 'ADD_SECTIONS';
+export const DELETE_SECTIONS = 'DELETE_SECTIONS';
+export const SEARCH_SECTIONS = 'SEARCH_SECTIONS';
+export const EDIT_SECTIONS = 'EDIT_SECTIONS';
+export const AFFECTER_USER_SECTION = 'AFFECTER_USER_SECTION';
+
+
+// NOTE TYPES
+export const NOTES_LOADING = 'MARKS_LOADING';
+export const GET_ALL_NOTES = 'GET_ALL_NOTES';
+export const GET_NOTES = 'GET_NOTES';
+export const ADD_NOTES = 'ADD_NOTES';
+export const DELETE_NOTES = 'DELETE_NOTES';
+export const SEARCH_NOTES = 'SEARCH_NOTES';
+export const EDIT_NOTES = 'EDIT_NOTES';
+
+

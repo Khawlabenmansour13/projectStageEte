@@ -16,7 +16,7 @@ export class  Footer extends Component {
 							
 							<div className="col-lg-3 col-md-3">
 								<div className="footer-widget">
-									<img src="assets/img/logo-light.png" className="img-footer" alt="" />
+									<img src="../../img/logo/logo.png" className="img-footer" alt="" />
 									<div className="footer-add">
 										<p>4967  Sardis Sta, Victoria 8007, Montreal.</p>
 										<p>+1 246-345-0695</p>

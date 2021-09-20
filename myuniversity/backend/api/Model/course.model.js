@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const Coursechema = new Schema ({
 
-    title:{
+    title:        {
         type:String,
         required:true
     },
-    image:{
+    image:        {
         type:String,
 
     },
@@ -16,11 +16,11 @@ const Coursechema = new Schema ({
         Type:Date,
       
     },
-    description: {
+    description:  {
         type:String,
         required:true
     },
-    categories :{
+    categories:   {
         type:String,
         enum : ['Business','Health','Technologies','Scientist']
 

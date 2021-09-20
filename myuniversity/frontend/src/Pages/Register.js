@@ -25,6 +25,8 @@ class Register extends Component {
             lastName: '',
             password:'',
             passwordRepeat:'',
+            country:'',
+            phone:'',
             email:'',
            
             image:'',
@@ -90,8 +92,11 @@ class Register extends Component {
         formData.append('firstName',this.state.firstName);
         formData.append('lastName',this.state.lastName);
         formData.append('password',this.state.password);
+        formData.append('confirmPassword',this.state.confirmPassword);
         formData.append('email',this.state.email);
         formData.append('role',this.state.role);
+        formData.append('country',this.state.country);
+        formData.append('phone',this.state.phone);
 
 
 
@@ -133,7 +138,7 @@ class Register extends Component {
 
         
                 <form>
-           
+
                   <div className="form-group">
                     <input 
                     type="text"
@@ -187,10 +192,22 @@ class Register extends Component {
                     type="password"
                      className="form-control"
                       placeholder="confirmPassword"
+                    name="confirmPassword"
                       onChange={this.onChange}
                       value ={this.state.confirmPassword}
                       />
                   </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="phone"
+                            placeholder="phone"
+                            onChange={this.onChange}
+                            value ={this.state.phone}
+                        />
+                    </div>
 
                   <div className="form-group">
                     <select 
@@ -199,6 +216,7 @@ class Register extends Component {
                       onChange={this.onChange}
                       value ={this.state.role}
                       >
+                        <option value="ROLE">--Choose Your Role--</option>
                         <option value="EMPLOYEES">EMPLOYEES</option>
                         <option value="TEACHER">TEACHER</option>
                         <option value="STUDENT">STUDENT</option>
@@ -208,14 +226,75 @@ class Register extends Component {
                         </select>
                   </div>
 
-                
-                  
-              <div class="upload-btn-wrapper">
-              <button class="btn">Upload a file</button>
-               <input type="file" 
-               
-               multiple={false} onChange={this.imageHandler} 
-               />
+                    <div className="form-group">
+                        <select
+                            className="form-control"
+                            name="country"
+                            onChange={this.onChange}
+                            value ={this.state.country}
+                        >
+                            <option value="ROLE">--Choose Your City--</option>
+                            <option value="Tunis">Tunis</option>
+                            <option value="Sousse">Sousse</option>
+                            <option value="Monastir">Monastir</option>
+                            <option value="Kef">Kef</option>
+                            <option value="Tozeur">Tozeur</option>
+                            <option value="Gafsa">Gafsa</option>
+                            <option value="Kasserine">Kasserine</option>
+                            <option value="Gbeli">Gbeli</option>
+                            <option value="Nabeul">Nabeul</option>
+                            <option value="Sfax">Sfax</option>
+                            <option value="Bizerte">Bizerte</option>
+                            <option value="Manouba">Manouba</option>
+                            <option value="Ben Arous">Ben Arous</option>
+                            <option value="Ariana">Ariana</option>
+                            <option value="Siliana">Siliana</option>
+                            <option value="Mednine">Mednine</option>
+                            <option value="Tatouine">Tatouine</option>
+                            <option value="Sidi bouzid">Sidi bouzid</option>
+                            <option value="Mahdia">Mahdia</option>
+                            <option value="Gabes">Gabes</option>
+                            <option value="Kairoune">Kairoune</option>
+
+
+
+                        </select>
+                    </div>
+
+
+
+                    <div class="upload-btn-wrapper">
+
+                        <div className="file-input">
+                            <input
+                                type="file"
+                                name="file-input"
+                                id="file-input"
+                                className="file-input__input"
+                                multiple={false} onChange={this.imageHandler}
+
+                            />
+                            <label className="file-input__label" htmlFor="file-input">
+                                <svg
+                                    aria-hidden="true"
+                                    focusable="false"
+                                    data-prefix="fas"
+                                    data-icon="upload"
+                                    className="svg-inline--fa fa-upload fa-w-16"
+                                    role="img"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+                                    ></path>
+                                </svg>
+                                <span>Choose your image</span></label
+                            >
+                        </div>
+
+
                 </div>
 
                   
@@ -234,7 +313,7 @@ class Register extends Component {
                   ) : null}
               
                 <div className="form-group">
-                      <button onClick={e => this.onSubmit(e)} className="btn btn-md full-width pop-login">Register</button>
+                      <button onClick={e => this.onSubmit(e)} className="btn btn-md full-width pop-login" style={{background:"#da0b4e"}}>Register</button>
                     </div>
               </div>
               <div className="modal-divider"><span>Or Signup via</span></div>

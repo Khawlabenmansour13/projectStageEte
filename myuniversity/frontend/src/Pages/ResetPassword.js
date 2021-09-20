@@ -9,6 +9,7 @@ import history  from "./../history";
 
 import {resetPassword} from './../actions/authActions';
 
+import { Link } from 'react-router-dom'
 
 
  const ResetPassword =({match})=> {
@@ -19,6 +20,7 @@ import {resetPassword} from './../actions/authActions';
         confirmPassword:"",
         token:"",
         loading:"Submit"
+
      });
      const {newPassword,confirmPassword,loading,token} = data;
  
@@ -39,7 +41,7 @@ import {resetPassword} from './../actions/authActions';
         setData({ ...data, [text]: e.target.value });
       };
 
-    
+
 
 const onResetPassword = (e)=> {
     e.preventDefault();
@@ -49,8 +51,8 @@ const onResetPassword = (e)=> {
             setData({...data,loading:"loading..."})
             resetPassword({newPassword:newPassword, token:token})
             toast.success("Great!! Password has been changed. ")
-            history.push("/Home")
-    
+            history.push("/")
+
         }
         else {
             toast.warning(" Passwords do not matches ");
@@ -119,15 +121,19 @@ return (
                                 
                                 
                                 <div class="form-group">
-                                <button  className="btn btn-md full-width pop-login" type="submit">Submit</button>
+                                <button  className="btn btn-md full-width pop-login"
+                                style={{backgroundColor:"#da0b4e"}}
+                                type="submit">Submit</button>
+                                <br/>
+
+                                <Link to={"/"}>Return to home</Link>
                                 </div>
 
                                    
                                     
                                     
                                 </form> 
-                                onResetPassword
-                               
+
                                 
                             </div>
                         </div>

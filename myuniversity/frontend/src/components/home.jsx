@@ -5,19 +5,22 @@ import  {React , Component}  from 'react';
 import Register from './../Pages/Register'
 import Login from './../Pages/Login'
 import ForgetPassword from './../Pages/ForgetPassword'
+import Header from './../components/header'
 export class Home extends Component {
 
 
 
-    render() {
+	render() {
 
 
     
 		
             const backGround = {background:"url(../img/banner-2.jpg) no-repeat"};
             return(
-               
+
                 <div id="main-wrapper">
+               <Header/>
+
                                     <div className="image-cover hero_banner hero-inner-2 shadow rlt" style={backGround} data-overlay="7">
 
                     <div className="elix_img_box">

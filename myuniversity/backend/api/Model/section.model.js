@@ -1,43 +1,40 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+
+var Schema=mongoose.Schema;
+var sectionSchemaa = mongoose.Schema({
 
 
-const SectionSchema = new Schema ({
 
-    title:{
-        type:String,
-        required:true
-    },
-    option:{
-        type:String,
-        required:true
-
-    },
-
-    speciality:{
-        type:String,
-        enum:['Computer science','mecanic','Continu','business','Civilize'],
-        required:true
-    },
     date:Date,
-
-    level:{
+    description :{
         type:String,
-        enum:['1er','2éme','3éme','4éme','5éme'],
-        required:true
+        required:false
     },
-    users: 
-        [{
-         type: Schema.ObjectId,
-         ref:"user"
-        }  
+    nombreCredit :{
+        type:Number,
+        required:false
+    },
+    formation :{
+        type:String,
+        enum:['Business','Computer science','Mecanic','Continu','Civilize'],
+        required:false
+    },
+    typeCycle :{
+        type:String,
+        enum:['1','2'],
+        required:false
+    },
+    annee :{
+        type:String,
+        enum:['1er','2eme','3eme','4eme','5eme'],
+        required:false
+    },
+
+    user:[
+        {type:Schema.Types.ObjectId,ref:'user'}
     ],
-    courses: 
-        [{
-         type: Schema.ObjectId,
-         ref:"course"
-        }  
-    ],
+
 
 })
-module.exports = mongoose.model('section', SectionSchema);
+var section =mongoose.model('section',sectionSchemaa,'section');
+module.exports=section;

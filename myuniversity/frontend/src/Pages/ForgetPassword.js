@@ -121,7 +121,11 @@ return (
          
       
       <div className="form-group">
-            <button onClick={e => this.onForget(e)} className="btn btn-md full-width pop-login">Send</button>
+            <button onClick={e => this.onForget(e)} className="btn btn-md full-width pop-login"
+                                            style={{backgroundColor:"#da0b4e"}}
+
+            
+            >Send</button>
             </div>
             
           {visible ? (

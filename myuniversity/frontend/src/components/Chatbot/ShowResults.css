@@ -1,0 +1,16 @@
+.results-widget{
+
+    color:black;
+}
+
+
+.results-widget-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.results-widget-list-item{
+    font-size: 1rem;
+    margin: 8px 0;
+    text-align: left;
+}

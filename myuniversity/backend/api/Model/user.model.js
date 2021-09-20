@@ -5,7 +5,10 @@ const { Access } = require('accesscontrol');
 const Schema = mongoose.Schema;
 
 
-// Form Submission validation 
+// Form Submission validation
+
+
+
 let firstNameLengthChecker = (firstName)=> {
     if(!firstName) {
         return false ;
@@ -15,7 +18,7 @@ let firstNameLengthChecker = (firstName)=> {
             return false ;
         }
         else {
-            return true; 
+            return true;
         }
     }
 }
@@ -47,7 +50,7 @@ let lastNameLengthChecker = (lastName)=> {
             return false ;
         }
         else {// email >=5 && email <=50
-            return true; 
+            return true;
         }
     }
 }
@@ -80,7 +83,7 @@ let emailLengthChecker = (email)=> {
             return false ;
         }
         else {// email >=5 && email <=50
-            return true; 
+            return true;
         }
     }
 }
@@ -91,7 +94,7 @@ let validEmailChecker = (email)=> {
     }
     else {
         const regExp = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-   
+
         return regExp.test(email);
     }
 }
@@ -107,7 +110,7 @@ let passwordLengthChecker = (password)=> {
             return false ;
         }
         else {// email >=5 && email <=50
-            return true; 
+            return true;
         }
     }
 }
@@ -118,7 +121,7 @@ let validPasswordChecker = (password)=> {
     }
     else {
         const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/)
-   
+
         return regExp.test(password);
     }
 }
@@ -135,7 +138,7 @@ let phoneLengthChecker = (phone)=> {
             return false ;
         }
         else {// email >=5 && email <=50
-            return true; 
+            return true;
         }
     }
 }
@@ -146,10 +149,11 @@ let validphoneChecker = (phone)=> {
     }
     else {
         const regExp = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
-   
+
         return regExp.test(phone);
     }
 }
+
 
 
 
@@ -182,6 +186,10 @@ const phoneValidators = [
 ];
 
 
+
+
+
+
 const userSchema =new  Schema({
 
     firstName: {
@@ -206,8 +214,10 @@ const userSchema =new  Schema({
     email : {
         type : String ,
         required: true,
-        validate:emailValidators,
-        unique:true
+        unique: true,
+        lowercase: true,
+        validate: emailValidators
+
 
     },
     
@@ -216,11 +226,15 @@ const userSchema =new  Schema({
         required: true,
         validate:passwordValidator
     },
-
+    confirmPassword: {
+        type : String ,
+        
+    },
     
     country: {
         type : String ,
-        required: false
+        required: true,
+
     },
 
     image :{
@@ -232,10 +246,18 @@ const userSchema =new  Schema({
 
     role :{
          type:String,
-         enum : ['EMPLOYEcES','STUDENT','TEACHER','ADMIN']
+         enum : ['EMPLOYEES','STUDENT','TEACHER','ADMIN'],
+        required:true,
 
-     },
-     accesstoken : {
+
+    },
+    note:
+       [{
+            type: Schema.ObjectId,
+            ref:"note"
+        }],
+
+    accesstoken : {
          type:String
      },
      department: 
@@ -253,10 +275,14 @@ const userSchema =new  Schema({
        },
        reset_password_expires: {
            type:Date
-       }
+       },
+    claim:
+        [{type: mongoose.Schema.ObjectId,
+            ref: "claim"}],
 
 
-   
+
+
 
 }).pre('save',function(next) {
     this.password =bcrypt.hashSync(this.password,10);
